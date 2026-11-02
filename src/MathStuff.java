@@ -1,5 +1,9 @@
+import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Random;
 import java.security.SecureRandom;
+import java.math.BigDecimal;
 
 public class MathStuff {
     public static void main(String[] args) {
@@ -56,6 +60,52 @@ public class MathStuff {
         int a2 = 12;
         System.out.printf("%b %b %b %b %b %b%n", a1 < a2, a1 <= a2, a1 == a2, a1 > a2,
                 a1 >= a2, a1 != a2);
+
+        // Exact Arithmetic with BigDecimal and BigInteger
+        BigDecimal num3 = new BigDecimal("2.15");
+        BigDecimal num4 = new BigDecimal("1.10");
+        System.out.println(num3.subtract(num4));
+        System.out.println(new BigDecimal("0.314").add(new BigDecimal("5.321")));
+        System.out.println(new BigDecimal("0.314").subtract(new BigDecimal("5.321")));
+        System.out.println(new BigDecimal("0.314").multiply(new BigDecimal("5.321")));
+        BigDecimal total = new BigDecimal("5");
+        total = total.add(BigDecimal.ONE);
+        System.out.println(total);
+        BigDecimal result = new BigDecimal("10").add(new BigDecimal("5"))
+                .multiply(new BigDecimal("2"));
+
+        MathContext mc = new MathContext(5, RoundingMode.HALF_UP);
+        System.out.println(new BigDecimal("0.314")
+                .divide(new BigDecimal("5.321"), mc));
+
+        MathContext mc2 = new MathContext(7 ,RoundingMode.HALF_UP);
+        System.out.println(new BigDecimal("49").sqrt(mc2));
+        System.out.println(new BigDecimal("0.054798").sqrt(mc2));
+        System.out.println(new BigDecimal("7").max(new BigDecimal("13")));
+        System.out.println(new BigDecimal("7").min(new BigDecimal("13")));
+        System.out.println(new BigDecimal("-7").abs());
+        System.out.println(new BigDecimal("13").remainder(new BigDecimal("8")));
+        System.out.println(new BigDecimal("1.08").pow(2));
+
+        BigDecimal d = new BigDecimal("2.0");
+        BigDecimal e = new BigDecimal("2.00");
+        System.out.println(d.compareTo(e));
+        System.out.println(d.equals(e));
+        BigDecimal num1 = new BigDecimal("100");
+        byte byteValue1 = num1.byteValue();
+        System.out.println(byteValue1);
+        System.out.println(new BigDecimal("3.141592").byteValue());
+        System.out.println(new BigDecimal("1024").byteValue());
+        System.out.println(new BigDecimal("1024").doubleValue());
+        String myString = num1.toString();
+        System.out.println(myString);
+
+        BigInteger huge = new BigInteger("123456789012345678901234567890");
+        BigInteger product = huge.multiply(new BigInteger("987654321"));
+        System.out.println(product);
+        BigDecimal pi = new BigDecimal("3.141592");
+        System.out.println(pi.unscaledValue());
+        System.out.println(pi.scale());
     }
 
     public static int celsiusToFahrenheit(int celsius) {

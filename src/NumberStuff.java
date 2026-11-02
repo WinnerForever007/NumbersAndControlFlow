@@ -61,6 +61,9 @@ public class NumberStuff {
         System.out.println(settings & 0b0010);
         System.out.println((255 & 10) + "." + (255 & 0) + "." + (0 & 5)
                 + "." + (77 & 0));
+
+        int age = Integer.parseInt(args[0]);
+        System.out.printf("You will be %d years old in 15 years.%n", age + 15);
     }
 
     private void decimalToBinary() {

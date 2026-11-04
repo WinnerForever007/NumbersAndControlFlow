@@ -1,7 +1,9 @@
 import java.util.Random;
 
 public class GuessIt {
-        public static void main(String[] args) {
+    public static final double MAX_WRONG_GUESSES = 3;
+
+    public static void main(String[] args) {
         int randomNum = new Random().nextInt(5) + 1;
         System.out.printf("Generated number is %d%n", randomNum);
         if (randomNum == 3) {
@@ -198,7 +200,149 @@ public class GuessIt {
             default -> System.out.println("Command not understood");
         }
 
+        //Lection Loops with while and do/while, and Switch Pattern Matching
+        guessingGame();
+        //Exercise 1
+        int number = 10;
+        while(number > 0) {
+            System.out.printf("%d%n", number--);
+        }
+        System.out.println("Liftoff!");
 
+        //Exercise 2
+        int total = 0;
+        int userNumber = 0;
+        do {
+            String s = System.console().readLine("Enter a number: ");
+            userNumber = Integer.parseInt(s);
+            total += userNumber;
+        } while(userNumber != 0);
+        System.out.println("Total is " + total);
+
+        //Exercise 5
+//        do {
+//            int i = 0;
+//        } while(i != 0);
+
+        //Exercise 6
+        int temperature = 35;
+        String res = temperature < 0 ? "freezing" : "not freezing";
+        System.out.println(res);
+
+        //Exercise 7
+        int flag = 1;
+        do {
+            guessingGame();
+            while (flag == 1) {
+                String res1 = System.console().readLine("Play again? (y/n)");
+                if("y".equals(res1)) {
+                    flag = 1;
+                    break;
+                } else if("n".equals(res1)) {
+                    flag = 0;
+                    break;
+                } else {
+                    System.out.println("Wrong letter");
+                    continue;
+                }
+            }
+        } while(flag == 1);
+
+        //Exercise 9
+        describe(101);
+        describe(5);
+        describe("123");
+        describe(3.0);
+        describe(null);
+        describe(56.0F);
+
+        //Exercise 10
+        describeIf(101);
+        describeIf(5);
+        describeIf("123");
+        describeIf(3.0);
+        describeIf(null);
+        describeIf(56.0F);
+
+        }
+
+    public static void guessingGame() {
+        int randomNum = new Random().nextInt(10) + 1;
+        String guessNumText;
+        int wrongGuessCount = 0;
+        do {
+            guessNumText = System.console().readLine("Please guess a number" +
+                    "between 1 and 10 inclusively: ");
+            if (guessNumText.matches("-?\\d{1,2}")) {
+                int guessNum = Integer.parseInt(guessNumText);
+
+                if(guessNum == randomNum) {
+                    int tries = wrongGuessCount + 1;
+                    String tryText = tries == 1 ? "try" : "tries";
+                    System.out.printf("The random number was %d. You got it in %d %s!%n,",
+                            randomNum, tries, tryText);
+                    return;
+                } else if(guessNum < 1 || guessNum > 10) {
+                    System.out.println("Please enter a number from 1 to 10");
+                } else {
+                    wrongGuessCount++;
+                    System.out.printf("You didn't get it%n");
+                    if(guessNum < randomNum && guessNum - randomNum < -3) {
+                        System.out.println("Wrong guess was too low");
+                    }
+                    if(guessNum > randomNum && guessNum - randomNum > 3) {
+                        System.out.println("Wrong guess was too high");
+                    }
+                }
+            }
+        } while (!"q".equals(guessNumText) && wrongGuessCount < MAX_WRONG_GUESSES);
+
+        if(wrongGuessCount >= MAX_WRONG_GUESSES) {
+            System.out.printf("You've had %d incorrect guesses. The random number was %d." +
+                    "Ending program now.%n", wrongGuessCount, randomNum);
+        }
+
+    }
+
+    public static void describe(Object obj) {
+        switch (obj) {
+            case null -> System.out.println("Null");
+            case Integer i when i > 100 -> System.out.println("Integer i > 100 " + i);
+            case Integer r -> System.out.println("Integer i <= 100 " + r);
+            case Double d -> System.out.println("Double d " + d);
+            case String s -> System.out.println("String: " + s);
+            default -> System.out.println("Have no idea");
+        }
+    }
+
+    public static void describeIf(Object obj) {
+        if(obj instanceof String) {
+            String s = (String) obj;
+            System.out.println("String: " + s);
+            return;
+        }
+        if(obj instanceof Integer) {
+            int i = (Integer) obj;
+            if(i > 100) {
+                System.out.println("Integer i > 100 " + i);
+                return;
+            } else {
+                System.out.println("Integer i <= 100 " + i);
+                return;
+            }
+        }
+        if(obj == null) {
+            System.out.println("Null");
+            return;
+        }
+        if(obj instanceof Double) {
+            Double d = (Double) obj;
+            System.out.println("Double d " + d);
+            return;
+        } else {
+            System.out.println("Have no idea");
+            return;
+        }
 
     }
 
@@ -213,5 +357,7 @@ public class GuessIt {
             };
             return result;
     }
+
+
 
 }

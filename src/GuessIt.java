@@ -270,32 +270,43 @@ public class GuessIt {
         int randomNum = new Random().nextInt(10) + 1;
         String guessNumText;
         int wrongGuessCount = 0;
-        do {
-            guessNumText = System.console().readLine("Please guess a number" +
-                    "between 1 and 10 inclusively: ");
-            if (guessNumText.matches("-?\\d{1,2}")) {
-                int guessNum = Integer.parseInt(guessNumText);
-
-                if(guessNum == randomNum) {
-                    int tries = wrongGuessCount + 1;
-                    String tryText = tries == 1 ? "try" : "tries";
-                    System.out.printf("The random number was %d. You got it in %d %s!%n,",
-                            randomNum, tries, tryText);
-                    return;
-                } else if(guessNum < 1 || guessNum > 10) {
-                    System.out.println("Please enter a number from 1 to 10");
-                } else {
-                    wrongGuessCount++;
-                    System.out.printf("You didn't get it%n");
-                    if(guessNum < randomNum && guessNum - randomNum < -3) {
-                        System.out.println("Wrong guess was too low");
-                    }
-                    if(guessNum > randomNum && guessNum - randomNum > 3) {
-                        System.out.println("Wrong guess was too high");
-                    }
+        //do
+        for (wrongGuessCount = 0; wrongGuessCount < MAX_WRONG_GUESSES; wrongGuessCount++)
+            {
+                guessNumText = System.console().readLine("Please guess a number" +
+                        "between 1 and 10 inclusively: ");
+                //guessNumText = "abc";
+                if("q".equals(guessNumText)) {
+                    break;
                 }
-            }
-        } while (!"q".equals(guessNumText) && wrongGuessCount < MAX_WRONG_GUESSES);
+                if (guessNumText.matches("-?\\d{1,2}")) {
+                    int guessNum = Integer.parseInt(guessNumText);
+
+                    if(guessNum == randomNum) {
+                        int tries = wrongGuessCount + 1;
+                        String tryText = tries == 1 ? "try" : "tries";
+                        System.out.printf("The random number was %d. You got it in %d %s!%n",
+                                randomNum, tries, tryText);
+                        break;
+                    } else if(guessNum < 1 || guessNum > 10) {
+                            System.out.println("Please enter a number from 1 to 10");
+                            wrongGuessCount--;
+                        } else {
+                            System.out.printf("You didn't get it%n");
+                            if(guessNum < randomNum && guessNum - randomNum < -3) {
+                                System.out.println("Wrong guess was too low");
+                            }
+                            if(guessNum > randomNum && guessNum - randomNum > 3) {
+                                System.out.println("Wrong guess was too high");
+                            }
+                        }
+                    } else {
+                    System.out.println("Invalid input");
+                    wrongGuessCount--;
+                  }
+                }
+             //while (!"q".equals(guessNumText) && wrongGuessCount < MAX_WRONG_GUESSES);
+
 
         if(wrongGuessCount >= MAX_WRONG_GUESSES) {
             System.out.printf("You've had %d incorrect guesses. The random number was %d." +
